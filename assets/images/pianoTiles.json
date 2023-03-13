@@ -2,19 +2,35 @@
 
 "background.png":
 {
-	"frame": {"x":0,"y":0,"w":747,"h":1000},
+	"frame": {"x":0,"y":0,"w":1200,"h":2000},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":747,"h":1000},
-	"sourceSize": {"w":747,"h":1000}
+	"spriteSourceSize": {"x":0,"y":0,"w":1200,"h":2000},
+	"sourceSize": {"w":1200,"h":2000}
+},
+"crown.png":
+{
+	"frame": {"x":1200,"y":0,"w":102,"h":102},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":102},
+	"sourceSize": {"w":102,"h":102}
+},
+"star.png":
+{
+	"frame": {"x":1302,"y":0,"w":102,"h":102},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":102},
+	"sourceSize": {"w":102,"h":102}
 }},
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.1",
 	"image": "pianoTiles.png",
 	"format": "RGBA8888",
-	"size": {"w":747,"h":1000},
+	"size": {"w":1404,"h":2000},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:90cceba886b6bca7e66bb466c73c1b8e:14746044188cc565c20e19b232bbd864:e64d66e6f79be69209defeba3bd0088c$"
+	"smartupdate": "$TexturePacker:SmartUpdate:7885b669dfab2f8904716a2fbcc89b1d:84baed06fdb7c4423380c26449cd049b:e64d66e6f79be69209defeba3bd0088c$"
 }
 }

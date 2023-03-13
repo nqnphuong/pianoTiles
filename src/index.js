@@ -1,7 +1,7 @@
-// import Game from './game';
+import Game from './game';
 
-// (() => {
-//   const game = new Game();
-//   game.loadAssets();
-// })();
+(() => {
+    const game = new Game();
+    game.loadAssets();
+})();
 
