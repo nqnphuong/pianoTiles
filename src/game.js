@@ -50,7 +50,7 @@ export default class Game {
 
     play(){
         // this.playScene.notes.updates();
-        this.playScene.notes.listenInputs();
+        // this.playScene.notes.listenInputs();
     }
 
     end(){

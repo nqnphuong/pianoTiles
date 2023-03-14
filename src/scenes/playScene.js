@@ -4,6 +4,8 @@ import { MusicNotes } from "../objects/musicNotes";
 import { Crowns } from "../objects/prices/crowns";
 import { Stars } from "../objects/prices/stars";
 import { Score } from "../objects/score";
+import { MusicPlay } from "../utils/musics/musicPlay";
+import { ProcessFileCSV } from "../utils/musics/processFileCSV";
 import { getSpriteFromCache } from "../utils/utils";
 
 export class PlayScene extends Container {
@@ -25,6 +27,7 @@ export class PlayScene extends Container {
         this.createScore();
         // this.createStars();
         // this.createCrowns();
+        this.prossesMusic('HowYouLikeThat_BlackPink ');
     }
 
     createBackground() {
@@ -74,5 +77,21 @@ export class PlayScene extends Container {
         this.crowns.x = GAME_WIDTH / 2 - this.crowns.crowns._width / 2;
         this.crowns.y = 10;
         this.textContainer.addChild(this.crowns);
+    }
+
+    prossesMusic(nameOfSong) {
+        try {
+            let processFileCSV = new ProcessFileCSV();
+            let dataInputNote = processFileCSV.process(nameOfSong);
+            let musicPlay = new MusicPlay();
+            musicPlay.create(nameOfSong);
+            // musicPlay.play();
+
+            //TODO: phân tách music
+            console.log(dataInputNote);
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
