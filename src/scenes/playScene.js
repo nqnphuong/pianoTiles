@@ -23,7 +23,7 @@ export class PlayScene extends Container {
         this.createBackground();
         this.createMusicNotes();
         this.createScore();
-        this.createStars();
+        // this.createStars();
         // this.createCrowns();
     }
 
@@ -50,18 +50,8 @@ export class PlayScene extends Container {
     createMusicNotes() {
         this.notes = new MusicNotes();
         // this.notes.creates([0, 1, 0, 1]);
-        this.notes.creates([1, 0, 1, 0]);
+        this.notes.creates([1, 0, 3, 0]);
         this.musicNoteContainer.addChild(this.notes);
-
-        // test code
-        // for (let i = 0; i < 4; i++) {
-        //     this.test = new MusicNote();
-        //     this.test.create(1);
-        //     this.test.x = GAME_WIDTH / 4 * i;
-        //     this.test.y = NOTE_HEIGHT * i;
-        //     this.musicNoteContainer.addChild(this.test);
-        // }
-
     }
 
     createScore(){

@@ -7,6 +7,7 @@ export const NOTE_WIDTH = GAME_WIDTH / 4 - LINE_WIDTH * 2;
 export const NOTE_HEIGHT = (NOTE_WIDTH * 3) / 1.8;
 
 export const SCORE_SIZE = GAME_WIDTH / 9;
+export const TITLE_SIZE = GAME_WIDTH / 16;
 
 export const DISTANCE_PRICE = 15;
 

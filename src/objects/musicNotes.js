@@ -1,5 +1,8 @@
 import { Graphics, Sprite } from "pixi.js";
 import { GAME_WIDTH, LINE_WIDTH, NOTE_HEIGHT, NOTE_WIDTH, NUMBER_OF_NOTES } from "../constants";
+import { KBEvent, Keyboard } from "../inputs/keyboard";
+import { MEvent, Mouse } from "../inputs/mouse";
+import { TEvent, Touch } from "../inputs/touch";
 
 export class MusicNote extends Sprite{
     constructor(){
@@ -7,8 +10,6 @@ export class MusicNote extends Sprite{
     }
 
     create(heightOfNote, lineNumber){ 
-        console.log("heightOfNote: " + heightOfNote);
-        console.log("lineNumber: " + lineNumber);
         //hei là độ dài note
         //lineNumber là số line note đó xuất hiện
         this.note = new Graphics();
@@ -19,7 +20,7 @@ export class MusicNote extends Sprite{
         } else {
             this.note.x = GAME_WIDTH / 4 * (lineNumber - 1);
         }
-        this.note.y = 0 - NOTE_HEIGHT * (heightOfNote - 1);
+        this.note.y = - NOTE_HEIGHT - NOTE_HEIGHT * (heightOfNote - 1);
         this.addChild(this.note);
     }
 }
@@ -45,18 +46,36 @@ export class MusicNotes extends MusicNote{
                 this.notes.addChild(this.note);
             }  
         }
-        // notesInRow.forEach(note => {
-        //     if(note != 0){ // kiểm tra tồn tại
-        //         this.note = new MusicNote();
-        //         this.note.create(note, notesInRow.indexOf(note) + 1);
-        //         this.notes.addChild(this.note);
-        //     }   
-        // });
         this.addChild(this.notes);
     }
 
     updates(){
         this.notes.y += 3;
+    }
+
+    listenInputs(){
+        let noteStatus;
+        // Keyboard.instance.once(KBEvent.KeyDown, e => {
+        //     console.log(e);
+        //     if (e.code === 'KeyA'){
+
+        //     } else if (e.code === 'KeyS'){
+
+        //     } else if (e.code === 'KeyD'){
+
+        //     } else if (e.code === 'KeyF'){
+
+        //     }
+        // })
+
+        Mouse.instance.once(MEvent.MClick, e => {
+            console.log(e);
+            
+        })
+
+        // Touch.instance.once(TEvent.TouchOn, e => {
+        //     console.log(e);
+        // })
     }
 }
 

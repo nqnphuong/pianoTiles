@@ -80,9 +80,9 @@
         <key>maxTextureSize</key>
         <QSize>
             <key>width</key>
-            <int>2048</int>
+            <int>4096</int>
             <key>height</key>
-            <int>2048</int>
+            <int>4096</int>
         </QSize>
         <key>fixedTextureSize</key>
         <QSize>
@@ -189,6 +189,7 @@
                 <false/>
             </struct>
             <key type="filename">../crown.png</key>
+            <key type="filename">../music-disc.png</key>
             <key type="filename">../star.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -214,6 +215,7 @@
                     <filename>../background.png</filename>
                     <filename>../crown.png</filename>
                     <filename>../star.png</filename>
+                    <filename>../music-disc.png</filename>
                 </array>
             </struct>
         </map>
