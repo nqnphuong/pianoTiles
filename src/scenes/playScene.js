@@ -1,5 +1,5 @@
 import { Container, Graphics } from "pixi.js";
-import { GAME_HEIGHT, GAME_WIDTH, LINE_WIDTH, LIST_MUSIC } from "../constants";
+import { GAME_HEIGHT, GAME_WIDTH, LINE_WIDTH, LIST_MUSIC, POSY_APPEAR_NOTE } from "../constants";
 import { BeginUI } from "../UIs/beginUI";
 import { PlayUI } from "../UIs/playUIs";
 import { EndUI } from "../UIs/endUI";
@@ -20,6 +20,8 @@ export class PlayScene extends Container {
         this.state = GameState.Begin;
         this.create();
         this.getUI();
+        this.processMusicData();
+        this.i_update = 1;
     }
 
     create() {
@@ -27,11 +29,16 @@ export class PlayScene extends Container {
         this.addChild(this.gameScene);
         this.createBackground();
         this.createEventsInput();
-        this.createNotes();
-        this.processMusicData();
     }
 
-    // tạo background
+    processMusicData(){
+        this.promissCSV = new processFileCSV(LIST_MUSIC[0]);
+        this.promissCSV.then((data) => {
+            this.dataArr = Object.entries(data);
+            this.createNote();
+        });
+    };
+
     createBackground() {
         this.background = getSpriteFromCache("background.png");
         this.background.width = GAME_WIDTH;
@@ -52,14 +59,13 @@ export class PlayScene extends Container {
         }
     }
 
-    // tạo note nhạc
-    createNotes() {
-        this.notes = new NoteMng();
-        this.gameScene.addChild(this.notes);
-        // this.notes.createOneRow([0, 1, 0, 1]);
+    createNote() {
+        this.note = new NoteMng();
+        this.note.createOneRow(this.dataArr[0][1]);
+        this.note.note.y = GAME_HEIGHT * 2 / 3 - this.note.note.height;
+        this.gameScene.addChild(this.note);
     }
 
-    // khai báo các event điều khiển
     createEventsInput() {
         Mouse.instance.once(MEvent.MDown, this.onPointDown, this);
         Mouse.instance.once(MEvent.MUp, this.onPointUp, this);
@@ -81,7 +87,6 @@ export class PlayScene extends Container {
 
     onPointMove() { }
 
-    // gọi UI
     getUI() {
         this.playUI = new PlayUI();
         this.addChild(this.playUI);
@@ -94,11 +99,16 @@ export class PlayScene extends Container {
         this.endUI.hide();
     }
 
-    // update
-    update(delta){
-        if (this.state === GameState.Play){
-            this.notes.update(delta);
-            this.playUI.update(delta);
+    update(delta) {
+        if (this.state === GameState.Play) {
+            this.note.update(delta, this);
+            console.log(this.note.note.y);
+            if (this.note.note.y > POSY_APPEAR_NOTE) {
+                // console.log(1);
+                // this.note.createOneRow(this.dataArr[this.i_update][1]);
+                // this.i_update += 1;
+            }
+            // this.playUI.update();
         }
     }
 
@@ -108,21 +118,8 @@ export class PlayScene extends Container {
         this.beginUI.hide();
     }
 
-    // end game
     endGame() {
         this.state = GameState.Lose;
         this.endUI.show();
-    }
-
-    // xử lý dữ liệu nhạc
-    processMusicData() {
-        this.promissCSV = new processFileCSV(LIST_MUSIC[0]);
-        this.promissCSV.then((data) => {
-            this.dataArr = Object.entries(data);
-            console.log(this.dataArr[0][1]);
-            for (let i = 0; i < this.dataArr.length; i++){
-                this.notes.createOneRow(this.dataArr[0][1]);
-            }
-        });
     }
 }

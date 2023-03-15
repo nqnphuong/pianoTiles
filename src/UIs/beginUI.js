@@ -17,6 +17,7 @@ export class BeginUI extends Container {
         this.background = new Graphics();
         this.background.beginFill(0xFFFFFF);
         this.background.drawRect(0, GAME_HEIGHT * 2 / 3, GAME_WIDTH, 150);
+        console.log("background begin ui " + GAME_HEIGHT * 2 / 3);
         this.addChild(this.background);
     }
 

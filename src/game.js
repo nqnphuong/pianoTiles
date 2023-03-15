@@ -34,3 +34,8 @@ export default class Game {
         this.playScene.update(delta);
     }
 }
+
+/*
+TODO: ý tưởng tạo note chạy xuống:
+- kiểm tra mỗi khi note cũ gần xuống dưới màn hình (-10) thì tạo note mới tại vị trí đó (y = -10)
+*/
