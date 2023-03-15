@@ -1,97 +1,128 @@
 import { Container, Graphics } from "pixi.js";
-import { GAME_HEIGHT, GAME_WIDTH, LINE_WIDTH, NOTE_HEIGHT } from "../constants";
-import { MusicNotes } from "../objects/musicNotes";
-import { Crowns } from "../objects/prices/crowns";
-import { Stars } from "../objects/prices/stars";
-import { Score } from "../objects/score";
-import { MusicPlay } from "../utils/musics/musicPlay";
-import { ProcessFileCSV } from "../utils/musics/processFileCSV";
+import { GAME_HEIGHT, GAME_WIDTH, LINE_WIDTH, LIST_MUSIC } from "../constants";
+import { BeginUI } from "../UIs/beginUI";
+import { PlayUI } from "../UIs/playUIs";
+import { EndUI } from "../UIs/endUI";
 import { getSpriteFromCache } from "../utils/utils";
+import { MEvent, Mouse } from "../inputs/mouse";
+import { NoteMng } from "../objects/notes/noteMng";
+import { processFileCSV } from "../utils/musics/processFileCSV";
+
+export const GameState = Object.freeze({
+    Play: 'play',
+    Lose: 'lose',
+    Begin: 'begin'
+})
 
 export class PlayScene extends Container {
     constructor() {
         super();
-        this.playSceneContainer = new Container();
+        this.state = GameState.Begin;
         this.create();
-        this.playSceneContainer.addChild(this.backgroundContainer);
-        this.playSceneContainer.addChild(this.musicNoteContainer);
-        this.playSceneContainer.addChild(this.textContainer);
+        this.getUI();
     }
 
     create() {
-        this.backgroundContainer = new Container();
-        this.musicNoteContainer = new Container();
-        this.textContainer = new Container();
+        this.gameScene = new Container();
+        this.addChild(this.gameScene);
         this.createBackground();
-        this.createMusicNotes();
-        this.createScore();
-        // this.createStars();
-        // this.createCrowns();
-        this.prossesMusic('HowYouLikeThat_BlackPink ');
+        this.createEventsInput();
+        this.createNotes();
+        this.processMusicData();
     }
 
+    // tạo background
     createBackground() {
         this.background = getSpriteFromCache("background.png");
         this.background.width = GAME_WIDTH;
         this.background.height = GAME_HEIGHT;
-        this.backgroundContainer.addChild(this.background);
+        this.gameScene.addChild(this.background);
 
         let backgroundFilter = new Graphics();
         backgroundFilter.beginFill(0x000000, 0.1);
         backgroundFilter.drawRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-        this.backgroundContainer.addChild(backgroundFilter);
+        this.gameScene.addChild(backgroundFilter);
 
         for (let i = 0; i < 5; i++) {
             let lineVertical = new Graphics();
-            lineVertical.lineStyle(LINE_WIDTH, 0xCCE7FF); //TODO: add constant
+            lineVertical.lineStyle(LINE_WIDTH, 0xCCE7FF);
             lineVertical.moveTo(GAME_WIDTH / 4 * i, 0);
             lineVertical.lineTo(GAME_WIDTH / 4 * i, GAME_HEIGHT);
-            this.backgroundContainer.addChild(lineVertical);
+            this.gameScene.addChild(lineVertical);
         }
     }
 
-    createMusicNotes() {
-        this.notes = new MusicNotes();
-        // this.notes.creates([0, 1, 0, 1]);
-        this.notes.creates([1, 0, 3, 0]);
-        this.musicNoteContainer.addChild(this.notes);
+    // tạo note nhạc
+    createNotes() {
+        this.notes = new NoteMng();
+        this.gameScene.addChild(this.notes);
+        // this.notes.createOneRow([0, 1, 0, 1]);
     }
 
-    createScore(){
-        this.score = new Score();
-        this.score.create();
-        this.textContainer.addChild(this.score);
+    // khai báo các event điều khiển
+    createEventsInput() {
+        Mouse.instance.once(MEvent.MDown, this.onPointDown, this);
+        Mouse.instance.once(MEvent.MUp, this.onPointUp, this);
+        Mouse.instance.once(MEvent.MMove, this.onPointMove, this);
     }
 
-    createStars(){
-        this.stars = new Stars();
-        this.stars.creates(3);
-        this.stars.x = GAME_WIDTH / 2 - this.stars.stars._width / 2;
-        this.stars.y = 10;
-        this.textContainer.addChild(this.stars);
-    }
-
-    createCrowns(){
-        this.crowns = new Crowns();
-        this.crowns.creates(3);
-        this.crowns.x = GAME_WIDTH / 2 - this.crowns.crowns._width / 2;
-        this.crowns.y = 10;
-        this.textContainer.addChild(this.crowns);
-    }
-
-    prossesMusic(nameOfSong) {
-        try {
-            let processFileCSV = new ProcessFileCSV();
-            let dataInputNote = processFileCSV.process(nameOfSong);
-            let musicPlay = new MusicPlay();
-            musicPlay.create(nameOfSong);
-            // musicPlay.play();
-
-            //TODO: phân tách music
-            console.log(dataInputNote);
-
-        } catch (error) {
-            console.log(error);
+    onPointDown() {
+        /* SU KIEN POINT DOWN
+        nếu là màn hình begin thì point down chuyển thành màn hình play
+        nếu là màn hình play thì bắt đầu chơi game 
+        */
+        if (this.state === GameState.Begin) {
+            this.start = GameState.Play;
+            this.startGame();
         }
+    }
+
+    onPointUp() { }
+
+    onPointMove() { }
+
+    // gọi UI
+    getUI() {
+        this.playUI = new PlayUI();
+        this.addChild(this.playUI);
+
+        this.beginUI = new BeginUI();
+        this.addChild(this.beginUI);
+
+        this.endUI = new EndUI();
+        this.addChild(this.endUI);
+        this.endUI.hide();
+    }
+
+    // update
+    update(delta){
+        if (this.state === GameState.Play){
+            this.notes.update(delta);
+            this.playUI.update(delta);
+        }
+    }
+
+    // press to play
+    startGame() {
+        this.state = GameState.Play;
+        this.beginUI.hide();
+    }
+
+    // end game
+    endGame() {
+        this.state = GameState.Lose;
+        this.endUI.show();
+    }
+
+    // xử lý dữ liệu nhạc
+    processMusicData() {
+        this.promissCSV = new processFileCSV(LIST_MUSIC[0]);
+        this.promissCSV.then((data) => {
+            this.dataArr = Object.entries(data);
+            console.log(this.dataArr[0][1]);
+            for (let i = 0; i < this.dataArr.length; i++){
+                this.notes.createOneRow(this.dataArr[0][1]);
+            }
+        });
     }
 }

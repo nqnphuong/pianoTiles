@@ -2,7 +2,9 @@ import { utils } from "pixi.js";
 
 
 export const MEvent = Object.freeze({
-    MClick: "MEvent:click"
+    MDown: "MEvent:mousedown",
+    MUp: "MEvent:mouseup",
+    MMove: "MEvent:mousemove"
 })
 
 export class Mouse extends utils.EventEmitter {
@@ -19,14 +21,20 @@ export class Mouse extends utils.EventEmitter {
     }
 
     handle() {
-        window.addEventListener("click", (e) => this.clickListener(e), false);
+        window.addEventListener("mousedown", (e) => this.mouseDownListener(e), false);
+        window.addEventListener("mouseup", (e) => this.mouseUpListener(e), false);
+        window.addEventListener("mousemove", (e) => this.mouseMoveListener(e), false);
     }
 
-    clickListener(e) {
-        this.emit(MEvent.MClick, e)
+    mouseDownListener(e) {
+        this.emit(MEvent.MDown, e)
     }
- 
-    unsubscribe() {
-        window.removeEventListener("click", this.clickListener);
+
+    mouseUpListener(e) {
+        this.emit(MEvent.MUp, e)
+    }
+
+    mouseMoveListener(e) {
+        this.emit(MEvent.MMove, e)
     }
 }

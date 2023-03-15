@@ -12,3 +12,7 @@ export const TITLE_SIZE = GAME_WIDTH / 16;
 export const DISTANCE_PRICE = 15;
 
 export const NUMBER_OF_NOTES = 4;
+
+export const LIST_MUSIC = [
+    'HowYouLikeThat_BlackPink'
+]

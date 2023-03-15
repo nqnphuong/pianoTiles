@@ -80,9 +80,9 @@
         <key>maxTextureSize</key>
         <QSize>
             <key>width</key>
-            <int>2048</int>
+            <int>4096</int>
             <key>height</key>
-            <int>2048</int>
+            <int>4096</int>
         </QSize>
         <key>fixedTextureSize</key>
         <QSize>
@@ -189,6 +189,7 @@
                 <false/>
             </struct>
             <key type="filename">../crown.png</key>
+            <key type="filename">../music-disc.png</key>
             <key type="filename">../star.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -204,6 +205,36 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../play.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>0.7</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>97,44,193,87</rect>
+                <key>scale9Paddings</key>
+                <rect>97,44,193,87</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../quit.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>0.7</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>51,51,101,102</rect>
+                <key>scale9Paddings</key>
+                <rect>51,51,101,102</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
         </map>
         <key>fileLists</key>
         <map type="SpriteSheetMap">
@@ -214,6 +245,9 @@
                     <filename>../background.png</filename>
                     <filename>../crown.png</filename>
                     <filename>../star.png</filename>
+                    <filename>../music-disc.png</filename>
+                    <filename>../play.png</filename>
+                    <filename>../quit.png</filename>
                 </array>
             </struct>
         </map>

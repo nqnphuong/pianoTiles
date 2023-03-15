@@ -7,7 +7,6 @@ import { getSpriteFromCache } from "../utils/utils";
 export class EndUI extends Container {
     constructor() {
         super();
-        this.endUIContainer = new Container();
     }
 
     create(score, priceNumber, priceType) {
@@ -25,7 +24,7 @@ export class EndUI extends Container {
         let x = (GAME_WIDTH - width) / 2;
         let y = (GAME_HEIGHT - height) / 2;
         background.drawRoundedRect(x, y, width, height, 30);
-        this.endUIContainer.addChild(background);
+        this.addChild(background);
     }
 
     createTextScore(score){
@@ -39,7 +38,7 @@ export class EndUI extends Container {
         this.textScore.x = GAME_WIDTH / 2 - this.textScore.width / 2;
         this.textScore.y = GAME_HEIGHT / 2 - this.textScore.height / 2 - 50;
 
-        this.endUIContainer.addChild(this.textScore);
+        this.addChild(this.textScore)
     }
 
     createPrices(priceNumber, priceType){
@@ -49,28 +48,31 @@ export class EndUI extends Container {
             this.stars.creates(priceNumber);
             this.stars.x = GAME_WIDTH / 2 - this.stars.stars._width / 2;
             this.stars.y = GAME_HEIGHT / 2 - this.stars.height / 2 - 10;
-            this.endUIContainer.addChild(this.stars);
+            this.addChild(this.stars);
         } else if (priceType === 'CROWN') {
             this.crowns = new Crowns();
             this.crowns.creates(priceNumber);
             this.crowns.x = GAME_WIDTH / 2 - this.crowns.crowns._width / 2;
             this.crowns.y = GAME_HEIGHT / 2 - this.crowns.height / 2 - 10;
             this.endUIContainer.addChild(this.crowns);
+            this.addChild(this.crowns)
         }
     }
 
     createButton(){
-        this.play = getSpriteFromCache('play.png');
-        this.play.scale.set(0.5);
-        this.play.x = GAME_WIDTH / 2 - this.play.width / 2 + 45;
-        this.play.y = GAME_HEIGHT / 2 - this.play.height / 2 + 120;
-        this.endUIContainer.addChild(this.play);
+        this.playbtn = getSpriteFromCache('play.png');
+        this.playbtn.scale.set(0.5);
+        this.playbtn.x = GAME_WIDTH / 2 - this.playbtn.width / 2;
+        this.playbtn.y = GAME_HEIGHT / 2 - this.playbtn.height / 2 + 120;
+        this.addChild(this.play);
+    }
 
-        this.quit = getSpriteFromCache('quit.png');
-        this.quit.scale.set(0.45);
-        this.quit.x = GAME_WIDTH / 2 - this.quit.width / 2 - 80;
-        this.quit.y = GAME_HEIGHT / 2 - this.quit.height / 2 + 120;
-        this.endUIContainer.addChild(this.quit);
+    hide(){
+        this.visible = false;
+    }
+
+    show(){
+        this.visible = true;
     }
 
 }

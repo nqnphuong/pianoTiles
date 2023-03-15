@@ -5,32 +5,28 @@ import { getSpriteFromCache } from "../utils/utils";
 export class BeginUI extends Container {
     constructor() {
         super();
-        this.beginUIContainer = new Container();
         this.create();
     }
 
     create() {
         this.createBackground();
         this.createMusicTitle();
-        this.createMusicTiles();
     }
 
     createBackground() {
-        let background = new Graphics();
-        background.beginFill(0xFFFFFF);
-        background.drawRect(0, GAME_HEIGHT - GAME_HEIGHT / 4, GAME_WIDTH, GAME_HEIGHT / 4);
-        this.beginUIContainer.addChild(background);
+        this.background = new Graphics();
+        this.background.beginFill(0xFFFFFF);
+        this.background.drawRect(0, GAME_HEIGHT * 2 / 3, GAME_WIDTH, 150);
+        this.addChild(this.background);
     }
 
-    createMusicTitle() {
+    createMusicTitle(musicName) { // biến này là nhập tên bài hát - tên bài hát được chọn từ ban đầu
         this.musicIcon = getSpriteFromCache('music-disc.png');
         this.musicIcon.scale.set(0.5);
-        this.musicIcon.x = 20;
-        this.musicIcon.y = GAME_HEIGHT - this.musicIcon.height - 20;
-        this.beginUIContainer.addChild(this.musicIcon);
-    }
+        this.musicIcon.x = 30;
+        this.musicIcon.y = GAME_HEIGHT * 2 / 3  + (this.background.height - this.musicIcon.height) / 2;
+        this.addChild(this.musicIcon);
 
-    createMusicTiles(){
         let style = new TextStyle({
             fontFamily: "Arial",
             fontSize: TITLE_SIZE,
@@ -39,7 +35,15 @@ export class BeginUI extends Container {
         })
         this.musicTitle = new Text("DAY LA TEN BAI HAT", style);
         this.musicTitle.x = this.musicIcon.x + this.musicIcon.width + 15;
-        this.musicTitle.y = this.musicIcon.y + this.musicIcon.height / 2 - this.musicTitle.height / 2 ;
-        this.beginUIContainer.addChild(this.musicTitle);
+        this.musicTitle.y = GAME_HEIGHT * 2 / 3  + (this.background.height - this.musicTitle.height) / 2;
+        this.addChild(this.musicTitle);
+    }
+
+    hide(){
+        this.visible = false;
+    }
+
+    show(){
+        this.visible = true;
     }
 }
