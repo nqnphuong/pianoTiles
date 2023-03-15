@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/nqnphuong/pianotiles.git"
+    "url": "git+https://github.com/nqnphuong/pianotiles.git"
   },
   "author": "Phuong Phuong",
   "license": "ISC",
   "bugs": {
-    "url": "https://gitlab.com/nqnphuong/pianotiles/issues"
+    "url": "https://github.com/nqnphuong/pianotiles/issues"
   },
-  "homepage": "https://gitlab.com/nqnphuong/pianotiles#readme",
+  "homepage": "https://github.com/nqnphuong/pianotiles#readme",
   "dependencies": {
     "@pixi/sound": "^5.1.0",
     "clean-webpack-plugin": "^4.0.0",
