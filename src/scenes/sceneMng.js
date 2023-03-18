@@ -1,0 +1,69 @@
+import { MEvent, Mouse } from "../inputs/mouse";
+import { ChooseMusicScene } from "./chosseMusicScene";
+import { PlayScene } from "./playScene";
+
+export const Scene = Object.freeze({
+    ChooseMusic: 'chooseMusic',
+    PlayGame: 'playgame'
+});
+
+export const GameState = Object.freeze({
+    Play: 'play',
+    Lose: 'lose',
+    Begin: 'begin'
+})
+
+export class SceneMng {
+    constructor() {
+        this.chooseMusicScene = new ChooseMusicScene();
+        this.sceneRun = Scene.ChooseMusic;
+        this.musicName = "";
+        this.mngScene();
+        this.createEventsInput();
+    }
+
+    mngScene() {
+        if (this.sceneRun === Scene.ChooseMusic){
+            this.chooseMusicScene.show();
+        } else if (this.sceneRun === Scene.PlayGame){
+            this.playScene = new PlayScene(this.musicName);
+            this.chooseMusicScene.hide();
+            this.sceneRun = Scene.PlayGame;
+            this.playScene.show();
+        }
+    }
+
+
+    // control mouse
+    createEventsInput() {
+        Mouse.instance.on(MEvent.MDown, this.onPointDown, this);
+        Mouse.instance.on(MEvent.MUp, this.onPointUp, this);
+        Mouse.instance.on(MEvent.MMove, this.onPointMove, this);
+    }
+
+    onPointDown() {
+        /* SU KIEN POINT DOWN
+        nếu là màn hình begin thì point down chuyển thành màn hình play
+        nếu là màn hình play thì bắt đầu chơi game 
+        */
+        if (this.sceneRun === Scene.ChooseMusic){ // màn hình chọn bài hát
+            let musicName = this.chooseMusicScene.isPressed(Mouse.position);
+            if (musicName != -1) {
+                this.sceneRun = Scene.PlayGame;
+                this.musicName = musicName;
+                this.mngScene();
+            }
+        }
+        else if (this.sceneRun === Scene.PlayGame){ // màn hình chơi game
+            if (this.playScene.note.isPressBeginNote(Mouse.position) && this.playScene.state === GameState.Begin){
+                this.playScene.note.destroyBeginNote();
+                this.playScene.startGame();
+            }
+        }
+        
+    }
+
+    onPointUp() { }
+
+    onPointMove() { }
+}

@@ -4,23 +4,24 @@ import { BeginUI } from "../UIs/beginUI";
 import { PlayUI } from "../UIs/playUIs";
 import { EndUI } from "../UIs/endUI";
 import { getSpriteFromCache } from "../utils/utils";
-import { MEvent, Mouse } from "../inputs/mouse";
 import { NoteMng } from "../objects/notes/noteMng";
 import { processFileCSV } from "../utils/musics/processFileCSV";
+import { GameState } from "./sceneMng";
 
-export const GameState = Object.freeze({
-    Play: 'play',
-    Lose: 'lose',
-    Begin: 'begin'
-})
 
 export class PlayScene extends Container {
-    constructor() {
+    constructor(musicName) {
         super();
+        this.musicName = musicName;
         this.state = GameState.Begin;
         this.create();
+        if (musicName) {
+            this.fullNameMusic = LIST_MUSIC.filter((music) => {
+                return music.includes(this.musicName);
+            });
+            this.processMusicData();
+        }
         this.getUI();
-        this.processMusicData();
         this.i_update = 1;
     }
 
@@ -28,14 +29,15 @@ export class PlayScene extends Container {
         this.gameScene = new Container();
         this.addChild(this.gameScene);
         this.createBackground();
-        this.createEventsInput();
     }
 
     processMusicData(){
-        this.promissCSV = new processFileCSV(LIST_MUSIC[0]);
+        console.log(this.fullNameMusic[0]);
+        this.promissCSV = new processFileCSV(this.fullNameMusic[0]);
         this.promissCSV.then((data) => {
             this.dataArr = Object.entries(data);
             this.createNote();
+            this.createBeginNote();
         });
     };
 
@@ -57,41 +59,33 @@ export class PlayScene extends Container {
             lineVertical.lineTo(GAME_WIDTH / 4 * i, GAME_HEIGHT);
             this.gameScene.addChild(lineVertical);
         }
+        
     }
 
     createNote() {
         this.note = new NoteMng();
         this.note.createOneRow(this.dataArr[0][1]);
+        // this.note.createOneRow(this.dataArr[0][1]);
         this.note.note.y = GAME_HEIGHT * 2 / 3 - this.note.note.height;
         this.gameScene.addChild(this.note);
     }
 
-    createEventsInput() {
-        Mouse.instance.once(MEvent.MDown, this.onPointDown, this);
-        Mouse.instance.once(MEvent.MUp, this.onPointUp, this);
-        Mouse.instance.once(MEvent.MMove, this.onPointMove, this);
-    }
-
-    onPointDown() {
-        /* SU KIEN POINT DOWN
-        nếu là màn hình begin thì point down chuyển thành màn hình play
-        nếu là màn hình play thì bắt đầu chơi game 
-        */
-        if (this.state === GameState.Begin) {
-            this.start = GameState.Play;
-            this.startGame();
+    createBeginNote(){
+        for (let i = 0; i < this.dataArr[0][1].length; i++) {
+            if (this.dataArr[0][1][i] !== 0) {
+                this.note.createBeginNote(i);
+                this.gameScene.addChild(this.note);
+                break;
+            }
         }
     }
 
-    onPointUp() { }
-
-    onPointMove() { }
 
     getUI() {
         this.playUI = new PlayUI();
         this.addChild(this.playUI);
 
-        this.beginUI = new BeginUI();
+        this.beginUI = new BeginUI(this.musicName);
         this.addChild(this.beginUI);
 
         this.endUI = new EndUI();
@@ -101,16 +95,17 @@ export class PlayScene extends Container {
 
     update(delta) {
         if (this.state === GameState.Play) {
-            this.note.update(delta, this);
-            console.log(this.note.note.y);
-            if (this.note.note.y > POSY_APPEAR_NOTE) {
-                // console.log(1);
-                // this.note.createOneRow(this.dataArr[this.i_update][1]);
-                // this.i_update += 1;
-            }
+            this.note.update(delta);
+            // console.log(this.note.note.y);
+            // if (this.note.note.y > POSY_APPEAR_NOTE) {
+            //     console.log(1);
+            //     this.note.createOneRow(this.dataArr[this.i_update][1]);
+            //     this.i_update += 1;
+            // }
             // this.playUI.update();
         }
     }
+
 
     // press to play
     startGame() {
@@ -121,5 +116,13 @@ export class PlayScene extends Container {
     endGame() {
         this.state = GameState.Lose;
         this.endUI.show();
+    }
+
+    hide(){
+        this.visible = false;
+    }
+
+    show(){
+        this.visible = true;
     }
 }
