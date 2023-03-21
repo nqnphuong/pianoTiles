@@ -7,6 +7,7 @@ import { getSpriteFromCache } from "../utils/utils";
 export class EndUI extends Container {
     constructor() {
         super();
+        this.create();
     }
 
     create(score, priceNumber, priceType) {
@@ -60,11 +61,27 @@ export class EndUI extends Container {
     }
 
     createButton(){
-        this.playbtn = getSpriteFromCache('play.png');
-        this.playbtn.scale.set(0.5);
-        this.playbtn.x = GAME_WIDTH / 2 - this.playbtn.width / 2;
-        this.playbtn.y = GAME_HEIGHT / 2 - this.playbtn.height / 2 + 120;
-        this.addChild(this.play);
+        this.playButton = new Graphics();
+        this.playButton.beginFill(0x816ecb);
+        let width = GAME_WIDTH / 3;
+        let height = GAME_HEIGHT / 16;
+        let x = GAME_WIDTH / 2 - width / 2;
+        let y = GAME_HEIGHT / 2 + 50;
+        this.playButton.drawRoundedRect(x, y, width, height, 15);
+        this.playButton._x = x;
+        this.playButton._y = y;
+        
+        let style = new TextStyle({
+            fontFamily: "Arial",
+            fontSize: TITLE_SIZE,
+            fill: "white",
+            style: 'bold'
+        })
+        this.playText = new Text("Play", style);
+        this.playText.x = x + (width - this.playText.width) / 2;
+        this.playText.y = y + (height - this.playText.height) / 2;
+        this.addChild(this.playButton);
+        this.addChild(this.playText);
     }
 
     hide(){

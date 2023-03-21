@@ -220,36 +220,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../play.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>0.7</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>97,44,193,87</rect>
-                <key>scale9Paddings</key>
-                <rect>97,44,193,87</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../quit.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>0.7</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>51,51,101,102</rect>
-                <key>scale9Paddings</key>
-                <rect>51,51,101,102</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
         </map>
         <key>fileLists</key>
         <map type="SpriteSheetMap">
@@ -260,8 +230,6 @@
                     <filename>../crown.png</filename>
                     <filename>../star.png</filename>
                     <filename>../music-disc.png</filename>
-                    <filename>../play.png</filename>
-                    <filename>../quit.png</filename>
                     <filename>../backgroundCM.jpg</filename>
                     <filename>../background.png</filename>
                 </array>

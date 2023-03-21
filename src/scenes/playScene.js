@@ -3,7 +3,7 @@ import { GAME_HEIGHT, GAME_WIDTH, LINE_WIDTH, LIST_MUSIC, POSY_APPEAR_NOTE } fro
 import { BeginUI } from "../UIs/beginUI";
 import { PlayUI } from "../UIs/playUIs";
 import { EndUI } from "../UIs/endUI";
-import { getSpriteFromCache } from "../utils/utils";
+import { changeNameToFullName, getSpriteFromCache } from "../utils/utils";
 import { NoteMng } from "../objects/notes/noteMng";
 import { processFileCSV } from "../utils/musics/processFileCSV";
 import { GameState } from "./sceneMng";
@@ -13,11 +13,13 @@ export class PlayScene extends Container {
     constructor(musicName) {
         super();
         this.musicName = musicName;
+        this.noteArr = [];
         this.state = GameState.Begin;
         this.create();
         if (musicName) {
+            this.speedNote = 16.23;
             this.fullNameMusic = LIST_MUSIC.filter((music) => {
-                return music.includes(this.musicName);
+                return music.includes(musicName);
             });
             this.processMusicData();
         }
@@ -31,15 +33,17 @@ export class PlayScene extends Container {
         this.createBackground();
     }
 
-    processMusicData(){
-        console.log(this.fullNameMusic[0]);
+    processMusicData() {
         this.promissCSV = new processFileCSV(this.fullNameMusic[0]);
         this.promissCSV.then((data) => {
             this.dataArr = Object.entries(data);
+            console.log(this.dataArr);
             this.createNote();
             this.createBeginNote();
         });
+
     };
+
 
     createBackground() {
         this.background = getSpriteFromCache("background.png");
@@ -59,18 +63,18 @@ export class PlayScene extends Container {
             lineVertical.lineTo(GAME_WIDTH / 4 * i, GAME_HEIGHT);
             this.gameScene.addChild(lineVertical);
         }
-        
+
     }
 
     createNote() {
         this.note = new NoteMng();
         this.note.createOneRow(this.dataArr[0][1]);
-        // this.note.createOneRow(this.dataArr[0][1]);
         this.note.note.y = GAME_HEIGHT * 2 / 3 - this.note.note.height;
         this.gameScene.addChild(this.note);
+        this.noteArr.push(this.note.note);
     }
 
-    createBeginNote(){
+    createBeginNote() {
         for (let i = 0; i < this.dataArr[0][1].length; i++) {
             if (this.dataArr[0][1][i] !== 0) {
                 this.note.createBeginNote(i);
@@ -79,7 +83,6 @@ export class PlayScene extends Container {
             }
         }
     }
-
 
     getUI() {
         this.playUI = new PlayUI();
@@ -95,19 +98,30 @@ export class PlayScene extends Container {
 
     update(delta) {
         if (this.state === GameState.Play) {
-            this.note.update(delta);
-            // console.log(this.note.note.y);
-            // if (this.note.note.y > POSY_APPEAR_NOTE) {
-            //     console.log(1);
-            //     this.note.createOneRow(this.dataArr[this.i_update][1]);
-            //     this.i_update += 1;
-            // }
-            // this.playUI.update();
+            this.note.update(delta, this.noteArr, this.speedNote);
+            if (this.dataArr !== undefined && this.dataArr.length === this.i_update) {
+                if (this.noteArr[this.noteArr.length - 1].y > GAME_HEIGHT) {
+                    console.log("end game");
+                    this.endGame();
+                }
+            } else {
+                let posYofNote = this.noteArr[this.noteArr.length - 1].y;
+                if (posYofNote > POSY_APPEAR_NOTE) {
+                    this.note.createOneRow(this.dataArr[this.i_update][1]);
+                    this.i_update += 1;
+                    this.noteArr.push(this.note.note);
+                }
+            }
+            this.noteArr.forEach(note => {
+                if (note.y > GAME_HEIGHT) {
+                    this.note.destroyNote(note);
+                }
+            });
         }
+
+
     }
 
-
-    // press to play
     startGame() {
         this.state = GameState.Play;
         this.beginUI.hide();
@@ -118,11 +132,11 @@ export class PlayScene extends Container {
         this.endUI.show();
     }
 
-    hide(){
+    hide() {
         this.visible = false;
     }
 
-    show(){
+    show() {
         this.visible = true;
     }
 }

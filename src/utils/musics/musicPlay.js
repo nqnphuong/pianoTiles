@@ -3,19 +3,22 @@
 import { sound } from "@pixi/sound"
 
 export class MusicPlay {
-    create(nameOfSong){
-        sound.add("music", "../audios/mp3/" + nameOfSong.trim() + ".mp3");
+    create(nameOfSong) {
+        sound.add("music", "../audios/mp3/" + nameOfSong + ".mp3");
     }
 
-    play(){
-        sound.play("music");
+    play(speed) {
+        let startTime = performance.now();
+        sound.play("music", { speed: speed });
+        let endTime = performance.now();
+        return endTime - startTime;
     }
 
-    resume(){
+    resume() {
         sound.resume("music");
     }
 
-    stop(){
+    stop() {
         sound.stop("music");
     }
 }

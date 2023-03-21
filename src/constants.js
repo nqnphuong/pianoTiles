@@ -18,3 +18,5 @@ export const POSY_APPEAR_NOTE = - 10;
 export const LIST_MUSIC = [
     'HowYouLikeThat_BlackPink'
 ]
+
+export const RADIUS_CIRCL = GAME_WIDTH/6;

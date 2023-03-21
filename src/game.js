@@ -20,7 +20,6 @@ export default class Game {
 
     async loadAssets() {
         await Assets.load("./images/pianoTiles.json");
-        //TODO: load nhạc và load cvs ở đây
         this.setup();
     }
 
@@ -45,4 +44,7 @@ export default class Game {
 TODO: ý tưởng tạo note chạy xuống:
 - kiểm tra mỗi khi note cũ gần xuống dưới màn hình (-10) thì tạo note mới tại vị trí đó (y = -10)
 => ý tưởng bị fail: vì khi tạo note mới, note cũ ko chạy được nữa do các thuộc tính đều chuyển sang note mới :(
+
+TODO: trong 0.923076s, toc do man hinh phai di chuyen la 8 note, 
+- tuy nhien bai hat loading cham hom luc bat dau @@ can phai fix dau tien
 */

@@ -1,4 +1,7 @@
+import { InputAnimation } from "../inputs/inputAnimation";
 import { MEvent, Mouse } from "../inputs/mouse";
+import { MusicPlay } from "../utils/musics/musicPlay";
+import { changeNamToFullName } from "../utils/utils";
 import { ChooseMusicScene } from "./chosseMusicScene";
 import { PlayScene } from "./playScene";
 
@@ -20,12 +23,13 @@ export class SceneMng {
         this.musicName = "";
         this.mngScene();
         this.createEventsInput();
+        this.musicPlay = new MusicPlay();
     }
 
     mngScene() {
-        if (this.sceneRun === Scene.ChooseMusic){
+        if (this.sceneRun === Scene.ChooseMusic) {
             this.chooseMusicScene.show();
-        } else if (this.sceneRun === Scene.PlayGame){
+        } else if (this.sceneRun === Scene.PlayGame) {
             this.playScene = new PlayScene(this.musicName);
             this.chooseMusicScene.hide();
             this.sceneRun = Scene.PlayGame;
@@ -46,24 +50,37 @@ export class SceneMng {
         nếu là màn hình begin thì point down chuyển thành màn hình play
         nếu là màn hình play thì bắt đầu chơi game 
         */
-        if (this.sceneRun === Scene.ChooseMusic){ // màn hình chọn bài hát
+        if (this.sceneRun === Scene.ChooseMusic) { // màn hình chọn bài hát
             let musicName = this.chooseMusicScene.isPressed(Mouse.position);
             if (musicName != -1) {
                 this.sceneRun = Scene.PlayGame;
                 this.musicName = musicName;
                 this.mngScene();
+                this.musicPlay.create(changeNamToFullName(musicName));
             }
         }
-        else if (this.sceneRun === Scene.PlayGame){ // màn hình chơi game
-            if (this.playScene.note.isPressBeginNote(Mouse.position) && this.playScene.state === GameState.Begin){
-                this.playScene.note.destroyBeginNote();
-                this.playScene.startGame();
+        else if (this.sceneRun === Scene.PlayGame) { // màn hình chơi game
+            if (this.playScene.note.isPressBeginNote(Mouse.position) && this.playScene.state === GameState.Begin) {
+                let time = this.musicPlay.play(1);
+                console.log(time);
+                setTimeout(() => {
+                    this.playScene.note.destroyBeginNote();
+                    this.playScene.startGame();
+                }, time*1000);
+            } else if (this.playScene.state === GameState.Play) {
+                this.inputAnimation = new InputAnimation();
+                this.inputAnimation.createCirlce(Mouse.position);
+                this.playScene.addChild(this.inputAnimation);
             }
         }
-        
+
     }
 
-    onPointUp() { }
+    onPointUp() {
+        if (this.inputAnimation) {
+            this.inputAnimation.destroy();
+        }
+    }
 
     onPointMove() { }
 }
