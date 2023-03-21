@@ -2,7 +2,6 @@ import { Container, Graphics, TextStyle, Text } from "pixi.js";
 import { GAME_HEIGHT, GAME_WIDTH, TITLE_SIZE } from "../constants";
 import { Crowns } from "../objects/prices/crowns";
 import { Stars } from "../objects/prices/stars";
-import { getSpriteFromCache } from "../utils/utils";
 
 export class EndUI extends Container {
     constructor() {

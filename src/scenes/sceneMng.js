@@ -1,3 +1,4 @@
+import { NOTE_HEIGHT } from "../constants";
 import { InputAnimation } from "../inputs/inputAnimation";
 import { MEvent, Mouse } from "../inputs/mouse";
 import { MusicPlay } from "../utils/musics/musicPlay";
@@ -68,9 +69,14 @@ export class SceneMng {
                     this.playScene.startGame();
                 }, time*1000);
             } else if (this.playScene.state === GameState.Play) {
-                this.inputAnimation = new InputAnimation();
-                this.inputAnimation.createCirlce(Mouse.position);
-                this.playScene.addChild(this.inputAnimation);
+                let noteInfor = this.playScene.note.isPressNoteInGame(Mouse.position, this.playScene.noteArr);
+                if (noteInfor) {
+                    this.playScene.note.destroyNoteInGame(noteInfor);
+                    this.playScene.playUI.update(noteInfor.height / NOTE_HEIGHT);
+                }
+                // this.inputAnimation = new InputAnimation();
+                // this.inputAnimation.createCirlce(Mouse.position);
+                // this.playScene.addChild(this.inputAnimation);
             }
         }
 

@@ -42,7 +42,7 @@ export class PlayUI extends Container {
         /* 
         trong này update phần điểm, phần stars, phần crowns
         */
-        this.score.update(heightNote);
+        this.score.update(parseInt(heightNote));
         //TODO: star va crown se duoc bo sung sau
     }
 

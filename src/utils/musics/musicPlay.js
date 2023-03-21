@@ -9,7 +9,7 @@ export class MusicPlay {
 
     play(speed) {
         let startTime = performance.now();
-        sound.play("music", { speed: speed });
+        // sound.play("music", { speed: speed });
         let endTime = performance.now();
         return endTime - startTime;
     }

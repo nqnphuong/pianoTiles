@@ -1,5 +1,5 @@
 import { Sprite, Graphics, TextStyle, Text } from "pixi.js";
-import { GAME_HEIGHT, GAME_WIDTH, LINE_WIDTH, NOTE_HEIGHT, NOTE_WIDTH, NUMBER_OF_NOTES, POSY_APPEAR_NOTE, TITLE_SIZE } from "../../constants";
+import { BLUR_NOTE_PRESS, GAME_HEIGHT, GAME_WIDTH, LINE_WIDTH, NOTE_HEIGHT, NOTE_WIDTH, NUMBER_OF_NOTES, POSY_APPEAR_NOTE, TITLE_SIZE } from "../../constants";
 
 
 export class NoteMng extends Sprite {
@@ -43,14 +43,24 @@ export class NoteMng extends Sprite {
     }
 
     isPressBeginNote(position) {
-        console.log(position);
-        console.log(this.noteBegin._x);
-        console.log(this.noteBegin._y);
-        console.log(this.noteBegin.width);
-        console.log(this.noteBegin.height);
+        // console.log(position);
+        // console.log(this.noteBegin._x);
+        // console.log(this.noteBegin._y);
+        // console.log(this.noteBegin.width);
+        // console.log(this.noteBegin.height);
         if (position['x'] > this.noteBegin._x && position['x'] < this.noteBegin._x + this.noteBegin.width
             && position['y'] > this.noteBegin._y && position['y'] < this.noteBegin._y + this.noteBegin.height) {
             return true;
+        }
+        return false;
+    }
+
+    isPressNoteInGame(position, noteArr) {
+        for (let notePress of noteArr) {
+            if (position['x'] > notePress.x && position['x'] < notePress.x + notePress.width &&
+                position['y'] > notePress.y && position['y'] < notePress.y + notePress.height) {
+                return notePress;
+            }
         }
         return false;
     }
@@ -60,8 +70,9 @@ export class NoteMng extends Sprite {
         this.removeChild(this.playTextStartGame);
     }
 
-    destroyNote(note) {
-        this.removeChild(note);
+    destroyNoteInGame(note) {
+        note.alpha = BLUR_NOTE_PRESS;
+        // this.removeChild(note);
     }
 
 

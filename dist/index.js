@@ -2854,7 +2854,6 @@ class Game {
 
     async loadAssets() {
         await pixi_js__WEBPACK_IMPORTED_MODULE_0__.Assets.load("./images/pianoTiles.json");
-        //TODO: load nhạc và load cvs ở đây
         this.setup();
     }
 

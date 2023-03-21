@@ -24,22 +24,22 @@ export class Mouse {
     }
 
     static _registerDOMEvents() {
-        // document.addEventListener("touchstart", e => this._handleTouchEvent(e, this._mouseDownEventHandler.bind(this)), { passive: false });
-        // document.addEventListener("touchmove", e => this._handleTouchEvent(e, this._mouseMoveEventHandler.bind(this)), { passive: false });
-        // document.addEventListener("touchend", e => this._handleTouchEvent(e, this._mouseUpEventHandler.bind(this)), { passive: false });
+        document.addEventListener("touchstart", e => this._handleTouchEvent(e, this._mouseDownEventHandler.bind(this)), { passive: false });
+        document.addEventListener("touchmove", e => this._handleTouchEvent(e, this._mouseMoveEventHandler.bind(this)), { passive: false });
+        document.addEventListener("touchend", e => this._handleTouchEvent(e, this._mouseUpEventHandler.bind(this)), { passive: false });
         document.addEventListener("mousedown", e => this._mouseDownEventHandler(e));
         document.addEventListener("mousemove", e => this._mouseMoveEventHandler(e));
         document.addEventListener("mouseup", e => this._mouseUpEventHandler(e));
     }
 
-    // /**
-    //  * @param {TouchEvent} evt 
-    //  * @param {(evt: Touch) => void} callback 
-    //  */
-    // static _handleTouchEvent(evt, callback) {
-    //     evt.preventDefault();
-    //     callback(evt.touches[0]);
-    // }
+    /**
+     * @param {TouchEvent} evt 
+     * @param {(evt: Touch) => void} callback 
+     */
+    static _handleTouchEvent(evt, callback) {
+        evt.preventDefault();
+        callback(evt.touches[0]);
+    }
 
     /**
      * @param {Touch} evt 
@@ -80,19 +80,19 @@ export class Mouse {
         return this._tmpPos;
     }
 
-    // /**
-    //  * @param {string} event 
-    //  * @param {(mouseX?: number, mouseY?: number, startMouseX?: number)} callback 
-    //  */
-    // static registerEvent(event, callback) {
-    //     this.instance.on(event, callback);
-    // }
+    /**
+     * @param {string} event 
+     * @param {(mouseX?: number, mouseY?: number, startMouseX?: number)} callback 
+     */
+    static registerEvent(event, callback) {
+        this.instance.on(event, callback);
+    }
 
-    // /**
-    //  * @param {string} event 
-    //  * @param {(mouseX?: number, mouseY?: number, startMouseX?: number)} callback 
-    //  */
-    // static removeEvent(event, callback) {
-    //     this.instance.off(event, callback)
-    // }
+    /**
+     * @param {string} event 
+     * @param {(mouseX?: number, mouseY?: number, startMouseX?: number)} callback 
+     */
+    static removeEvent(event, callback) {
+        this.instance.off(event, callback)
+    }
 }

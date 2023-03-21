@@ -18,6 +18,7 @@ export class PlayScene extends Container {
         this.create();
         if (musicName) {
             this.speedNote = 16.23;
+            // this.speedNote = 2;
             this.fullNameMusic = LIST_MUSIC.filter((music) => {
                 return music.includes(musicName);
             });
@@ -114,7 +115,7 @@ export class PlayScene extends Container {
             }
             this.noteArr.forEach(note => {
                 if (note.y > GAME_HEIGHT) {
-                    this.note.destroyNote(note);
+                    this.note.destroyNoteInGame(note);
                 }
             });
         }

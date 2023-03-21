@@ -20,3 +20,5 @@ export const LIST_MUSIC = [
 ]
 
 export const RADIUS_CIRCL = GAME_WIDTH/6;
+
+export const BLUR_NOTE_PRESS = 0.25;
