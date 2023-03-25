@@ -21,7 +21,6 @@
   "dependencies": {
     "@pixi/sound": "^5.1.0",
     "clean-webpack-plugin": "^4.0.0",
-    "console-remote-client": "^2.1.18",
     "esbuild-loader": "^2.20.0",
     "papaparse": "^5.4.0",
     "pixi-scrollbox": "^2.3.1",
