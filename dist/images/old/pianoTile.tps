@@ -182,9 +182,24 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>256,342,512,685</rect>
+                <rect>150,250,300,500</rect>
                 <key>scale9Paddings</key>
-                <rect>256,342,512,685</rect>
+                <rect>150,250,300,500</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../backgroundCM.jpg</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>119,211,237,421</rect>
+                <key>scale9Paddings</key>
+                <rect>119,211,237,421</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -205,36 +220,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../play.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>0.7</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>97,44,193,87</rect>
-                <key>scale9Paddings</key>
-                <rect>97,44,193,87</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../quit.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>0.7</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>51,51,101,102</rect>
-                <key>scale9Paddings</key>
-                <rect>51,51,101,102</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
         </map>
         <key>fileLists</key>
         <map type="SpriteSheetMap">
@@ -242,12 +227,11 @@
             <struct type="SpriteSheet">
                 <key>files</key>
                 <array>
-                    <filename>../background.png</filename>
                     <filename>../crown.png</filename>
                     <filename>../star.png</filename>
                     <filename>../music-disc.png</filename>
-                    <filename>../play.png</filename>
-                    <filename>../quit.png</filename>
+                    <filename>../backgroundCM.jpg</filename>
+                    <filename>../background.png</filename>
                 </array>
             </struct>
         </map>
@@ -258,6 +242,7 @@
         <key>ignoredWarnings</key>
         <array>
             <string>enable-multipack</string>
+            <string>large-max-texture-size</string>
         </array>
         <key>commonDivisorX</key>
         <uint>1</uint>

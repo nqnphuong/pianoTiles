@@ -2,15 +2,23 @@
 
 "background.png":
 {
-	"frame": {"x":0,"y":0,"w":1200,"h":2000},
+	"frame": {"x":0,"y":0,"w":600,"h":1000},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":1200,"h":2000},
-	"sourceSize": {"w":1200,"h":2000}
+	"spriteSourceSize": {"x":0,"y":0,"w":600,"h":1000},
+	"sourceSize": {"w":600,"h":1000}
+},
+"backgroundCM.jpg":
+{
+	"frame": {"x":600,"y":0,"w":474,"h":843},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":474,"h":843},
+	"sourceSize": {"w":474,"h":843}
 },
 "crown.png":
 {
-	"frame": {"x":1200,"y":0,"w":102,"h":102},
+	"frame": {"x":1074,"y":0,"w":102,"h":102},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":102},
@@ -18,31 +26,15 @@
 },
 "music-disc.png":
 {
-	"frame": {"x":1302,"y":0,"w":102,"h":102},
+	"frame": {"x":1176,"y":0,"w":102,"h":102},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":102},
 	"sourceSize": {"w":102,"h":102}
 },
-"play.png":
-{
-	"frame": {"x":1404,"y":0,"w":270,"h":123},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":270,"h":123},
-	"sourceSize": {"w":270,"h":123}
-},
-"quit.png":
-{
-	"frame": {"x":1674,"y":0,"w":141,"h":143},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":143},
-	"sourceSize": {"w":141,"h":143}
-},
 "star.png":
 {
-	"frame": {"x":1815,"y":0,"w":102,"h":102},
+	"frame": {"x":1278,"y":0,"w":102,"h":102},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":102},
@@ -53,8 +45,8 @@
 	"version": "1.1",
 	"image": "pianoTiles.png",
 	"format": "RGBA8888",
-	"size": {"w":1917,"h":2000},
+	"size": {"w":1380,"h":1000},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:2bb7b8e3e4ba094528bf891a8504d894:c7e782f2f4dded851e7e646c5e2e7851:e64d66e6f79be69209defeba3bd0088c$"
+	"smartupdate": "$TexturePacker:SmartUpdate:6eaffc0e7e936528d2e14e01718475db:b88c98c9bd430c8745c0300d1d5f3a59:e64d66e6f79be69209defeba3bd0088c$"
 }
 }
