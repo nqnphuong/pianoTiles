@@ -17,39 +17,40 @@ export class processFileCSV {
 
                     let minShortNote = 1000;
                     let heightValue;
-                    let heightArray = [];
+                    let dataArray = [];
                     let randomPass; // biến dùng để kiểm tra sao cho 2 note đơn ko cùng line
 
                     for (let i = 0; i < parsedData.length; i++) {
                         // tính thời gian các note và tìm min
                         if (i === 0) {
                             heightValue = parsedData[i][' shortNote'] - 0;
+                            dataArray.push([heightValue, 0, parseFloat(parsedData[i][' shortNote'])])
                         } else {
                             heightValue = parsedData[i][' shortNote'] - parsedData[i - 1][' shortNote'];
+                            dataArray.push([heightValue, parseFloat(parsedData[i - 1][' shortNote']), parseFloat(parsedData[i][' shortNote'])])
                         }
-                        heightArray.push(heightValue);
                         if (heightValue < minShortNote) {
                             minShortNote = heightValue;
                         }
                     }
-                    // console.log(minShortNote);
-                    heightArray.forEach(row => {
+                    // console.log(dataArray);
+                    dataArray.forEach(row => {
+                        // console.log(row);
                         let oneRow = [];
                         // chuyển thời gian các note thành số note và tạo input data
                         let lineOfNote = randomInt(1, 4);
-                        while (lineOfNote === randomPass && randomPass !== undefined) {
+                        while (lineOfNote === randomPass && randomPass !== undefined) { // kiểm tra sao cho 2 note đơn ko cùng line
                             lineOfNote = randomInt(1, 4);
                         }
                         for (let j = 0; j < 4; j++) {
                             if (j === lineOfNote - 1) {
-                                // console.log(parseInt((row / minShortNote)));
-                                oneRow.push(parseInt((row / minShortNote)));
+                                oneRow.push(parseInt((row[0] / minShortNote)));
                             } else {
                                 // console.log(0);
                                 oneRow.push(0);
                             }
                         }
-                        dataInputNote.push(oneRow);
+                        dataInputNote.push([oneRow, row[1], row[2]]);
                         randomPass = lineOfNote;
                     });
 

@@ -7,8 +7,9 @@ export class MusicPlay {
         sound.add("music", "../audios/mp3/" + nameOfSong + ".mp3");
     }
 
-    play(speed) {
+    play(time_a, time_b) {
         let startTime = performance.now();
+        sound.play("music", { start: time_a, end: time_b });
         // sound.play("music", { speed: speed });
         let endTime = performance.now();
         return endTime - startTime;

@@ -12,8 +12,6 @@ export class PlayUI extends Container {
 
     create() {
         this.createScore();
-        // this.createStars();
-        // this.createCrowns();
     }
 
     createScore() {
@@ -22,28 +20,31 @@ export class PlayUI extends Container {
         this.addChild(this.score);
     }
 
-    createStars() {
+    createStars(number) {
         this.stars = new Stars();
-        this.stars.create(3);
+        this.stars.create(number);
         this.stars.x = (GAME_WIDTH - this.stars._width) / 2;
         this.stars.y = 10;
         this.addChild(this.stars);
     }
 
-    createCrowns() {
+    createCrowns(number) {
         this.crowns = new Crowns();
-        this.crowns.create(3);
+        this.crowns.create(number);
         this.crowns.x = (GAME_WIDTH - this.crowns._width) / 2;
         this.crowns.y = 10;
         this.addChild(this.crowns);
     }
 
     update(heightNote){
-        /* 
-        trong này update phần điểm, phần stars, phần crowns
-        */
         this.score.update(parseInt(heightNote));
-        //TODO: star va crown se duoc bo sung sau
+        this.score.mess.x = GAME_WIDTH / 2 - this.score.mess.width / 2;
+    }
+
+    destroyPlayUI(){
+        this.removeChild(this.score);
+        this.removeChild(this.stars);
+        this.removeChild(this.crowns);
     }
 
     hide(){
@@ -52,6 +53,10 @@ export class PlayUI extends Container {
 
     show(){
         this.visible = true;
+    }
+
+    hidePrices(price){
+        this.removeChild(price);
     }
 }
 

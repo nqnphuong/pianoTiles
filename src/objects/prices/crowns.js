@@ -18,4 +18,8 @@ export class Crowns extends Sprite{
             this._width += this.crown.width + DISTANCE_PRICE; 
         }
     }
+
+    destroyCrowns(){
+        this.removeChild(this.crown);
+    }
 }

@@ -6,7 +6,6 @@ import { Stars } from "../objects/prices/stars";
 export class EndUI extends Container {
     constructor() {
         super();
-        this.create();
     }
 
     create(score, priceNumber, priceType) {
@@ -44,17 +43,15 @@ export class EndUI extends Container {
     createPrices(priceNumber, priceType){
         if (priceType === 'STAR'){
             this.stars = new Stars();
-            console.log(priceNumber);
-            this.stars.creates(priceNumber);
-            this.stars.x = GAME_WIDTH / 2 - this.stars.stars._width / 2;
+            this.stars.create(priceNumber);
+            this.stars.x = GAME_WIDTH / 2 - this.stars._width / 2;
             this.stars.y = GAME_HEIGHT / 2 - this.stars.height / 2 - 10;
             this.addChild(this.stars);
         } else if (priceType === 'CROWN') {
             this.crowns = new Crowns();
-            this.crowns.creates(priceNumber);
-            this.crowns.x = GAME_WIDTH / 2 - this.crowns.crowns._width / 2;
+            this.crowns.create(priceNumber);
+            this.crowns.x = GAME_WIDTH / 2 - this.crowns._width / 2;
             this.crowns.y = GAME_HEIGHT / 2 - this.crowns.height / 2 - 10;
-            this.endUIContainer.addChild(this.crowns);
             this.addChild(this.crowns)
         }
     }
@@ -81,6 +78,14 @@ export class EndUI extends Container {
         this.playText.y = y + (height - this.playText.height) / 2;
         this.addChild(this.playButton);
         this.addChild(this.playText);
+    }
+
+    isPressButtonPlay(position){
+        if (position['x'] >= this.playButton._x && position['x'] <= this.playButton._x + this.playButton.width
+            && position['y'] >= this.playButton._y && position['y'] <= this.playButton._y + this.playButton.height){
+                return true;
+            }
+        return false;
     }
 
     hide(){

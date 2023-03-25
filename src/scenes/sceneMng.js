@@ -1,8 +1,6 @@
-import { NOTE_HEIGHT } from "../constants";
-import { InputAnimation } from "../inputs/inputAnimation";
+import { MAX_NOTE_BLUR, NOTE_HEIGHT, NUMBER_BLUR } from "../constants";
 import { MEvent, Mouse } from "../inputs/mouse";
-import { MusicPlay } from "../utils/musics/musicPlay";
-import { changeNamToFullName } from "../utils/utils";
+import { changeNamToFullName, distance } from "../utils/utils";
 import { ChooseMusicScene } from "./chosseMusicScene";
 import { PlayScene } from "./playScene";
 
@@ -24,7 +22,6 @@ export class SceneMng {
         this.musicName = "";
         this.mngScene();
         this.createEventsInput();
-        this.musicPlay = new MusicPlay();
     }
 
     mngScene() {
@@ -32,6 +29,7 @@ export class SceneMng {
             this.chooseMusicScene.show();
         } else if (this.sceneRun === Scene.PlayGame) {
             this.playScene = new PlayScene(this.musicName);
+            this.musicPlay = this.playScene.musicPlay;
             this.chooseMusicScene.hide();
             this.sceneRun = Scene.PlayGame;
             this.playScene.show();
@@ -51,6 +49,7 @@ export class SceneMng {
         nếu là màn hình begin thì point down chuyển thành màn hình play
         nếu là màn hình play thì bắt đầu chơi game 
         */
+
         if (this.sceneRun === Scene.ChooseMusic) { // màn hình chọn bài hát
             let musicName = this.chooseMusicScene.isPressed(Mouse.position);
             if (musicName != -1) {
@@ -61,32 +60,71 @@ export class SceneMng {
             }
         }
         else if (this.sceneRun === Scene.PlayGame) { // màn hình chơi game
-            if (this.playScene.note.isPressBeginNote(Mouse.position) && this.playScene.state === GameState.Begin) {
-                let time = this.musicPlay.play(1);
-                console.log(time);
-                setTimeout(() => {
+
+            if (this.playScene.state === GameState.Begin || this.playScene.state === GameState.Play) {
+
+                if (this.playScene.note.isPressBeginNote(Mouse.position)) {
+                    // let time = this.playScene.musicPlay.play(0, 0);
+                    // this.playScene.musicPlay.stop();
                     this.playScene.note.destroyBeginNote();
+                    // setTimeout(() => {
                     this.playScene.startGame();
-                }, time*1000);
-            } else if (this.playScene.state === GameState.Play) {
-                let noteInfor = this.playScene.note.isPressNoteInGame(Mouse.position, this.playScene.noteArr);
-                if (noteInfor) {
-                    this.playScene.note.destroyNoteInGame(noteInfor);
-                    this.playScene.playUI.update(noteInfor.height / NOTE_HEIGHT);
+                    // }, time * 500);
+
                 }
-                // this.inputAnimation = new InputAnimation();
-                // this.inputAnimation.createCirlce(Mouse.position);
-                // this.playScene.addChild(this.inputAnimation);
+
+                this.noteInfor = this.playScene.note.isPressNoteInGame(Mouse.position, this.playScene.noteArr);
+                if (this.noteInfor) {
+                    this.playScene.musicPlay.play(this.playScene.note.note.time_a, this.playScene.note.note.time_b)
+                    if (this.noteInfor.height > NOTE_HEIGHT) {
+                        this.longPress = true;
+                        this.numberBlur = 1;
+                        this.x_down = Mouse.position['x'];
+                        this.y_down = Mouse.position['y'];
+                    } else {
+                        this.playScene.note.blurNoteInGame(this.noteInfor, MAX_NOTE_BLUR);
+                    }
+                    this.playScene.playUI.update(this.noteInfor.height / NOTE_HEIGHT);
+                }
+
+            } else if (this.playScene.state === GameState.Lose) {
+                if (this.playScene.endUI.isPressButtonPlay(Mouse.position)) {
+                    this.playScene.endUI.hide();
+                    this.playScene.noteArr.forEach(note => {
+                        this.playScene.note.destroyNoteInGame(note);
+                    });
+                    this.playScene.playUI.destroyPlayUI();
+
+                    this.playScene.state = GameState.Begin;
+                    this.playScene.create();
+                }
             }
         }
-
     }
 
     onPointUp() {
-        if (this.inputAnimation) {
-            this.inputAnimation.destroy();
-        }
+        Mouse.isPointerDown = false;
+        this.numberBlur = 1;
+        this.x_up = Mouse.position['x'];
+        this.y_up = Mouse.position['y'];
+        // if (Mouse.isPointerDown && this.playScene.state === GameState.Play) {
+        //     console.log("hi");
+        //     if (this.longPress) {
+        //         console.log("long press");
+        //         let distanceMouse = distance(this.y_down, this.y_up);
+        //         this.playScene.playUI.update(Math.round(distanceMouse / NOTE_HEIGHT));
+        //     } else {
+        //         this.playScene.playUI.update(1);
+        //     }
+        // }
+        this.longPress = false;
     }
 
-    onPointMove() { }
+    onPointMove() {
+        if (Mouse.isPointerDown && this.longPress) {
+            console.log("hi");
+            this.numberBlur -= NUMBER_BLUR;
+            this.playScene.note.blurNoteInGame(this.noteInfor, this.numberBlur);
+        }
+    }
 }

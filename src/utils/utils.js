@@ -15,3 +15,7 @@ export function changeNamToFullName(musicName) {
     });
     return fullNameMusic[0]
 }
+
+export function distance(y1, y2) {
+    return y2 - y1;
+}

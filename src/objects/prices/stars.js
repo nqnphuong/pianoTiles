@@ -17,6 +17,9 @@ export class Stars extends Sprite{
             this.addChild(this.star);
             this._width += this.star.width + DISTANCE_PRICE; 
         }
-        
+    }
+
+    destroyStars(){
+        this.removeChild(this.star);
     }
 }
